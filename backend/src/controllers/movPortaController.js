@@ -2,7 +2,7 @@ import { db } from "../config/db.js";
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-export async function getMovPorta (req, res, next) {
+export async function getMovPorta (req, res) {
     try {
         const [rows] = await db.query('SELECT * FROM MOV_PORTA');
         res.status(200).json(rows);
@@ -14,7 +14,7 @@ export async function getMovPorta (req, res, next) {
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-export async function postMovPorta(req, res, next) {
+export async function postMovPorta(req, res) {
     const { id_usuario_mov, tipo_mov, status_porta } = req.body;
     try {
         const [inserir] = await db.execute(

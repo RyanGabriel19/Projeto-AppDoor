@@ -1,6 +1,6 @@
 import { db } from "../config/db.js";
 
-export async function getLog (req, res, next) {
+export async function getLog (req, res) {
     try {
         const [rows] = await db.query('SELECT * FROM LOG');
         res.status(200).json(rows);

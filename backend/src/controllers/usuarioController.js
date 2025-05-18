@@ -2,7 +2,7 @@ import { db } from "../config/db.js";
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
-export async function getUsuarios(req, res, next) {
+export async function getUsuarios(req, res) {
   try {
     const [rows] = await db.query('SELECT * FROM USUARIO');
     res.status(200).json(rows);
@@ -14,7 +14,7 @@ export async function getUsuarios(req, res, next) {
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
-export async function postUsuarios(req, res, next) {
+export async function postUsuarios(req, res) {
   const { nome, sobrenome, usuario, email, senha } = req.body;
   try {
     const [inserir] = await db.execute(
@@ -42,7 +42,7 @@ export async function postUsuarios(req, res, next) {
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
-export async function putUsuarios(req, res, next) {
+export async function putUsuarios(req, res) {
   const { id } = req.params; // ID deve vir na URL
   const { nome, sobrenome, usuario, email, senha } = req.body;
 
@@ -74,7 +74,7 @@ export async function putUsuarios(req, res, next) {
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
-export async function deleteUsuarios(req, res, next) {
+export async function deleteUsuarios(req, res) {
   const { id } = req.params;
   try {
     const [result] = await db.execute(
@@ -94,7 +94,7 @@ export async function deleteUsuarios(req, res, next) {
     }
 
     return res.status(500).json({ error: 'Erro interno ao deletar usuário' });
-    // ou: next(err);
+    // ou(err);
   }
 }
 
