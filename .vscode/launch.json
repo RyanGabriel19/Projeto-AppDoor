@@ -1,0 +1,28 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Projeto_flutter_faculdade",
+            "cwd": "Users\\alm3ida\\StudioProjects\\Projeto_flutter_faculdade",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "Projeto_flutter_faculdade (profile mode)",
+            "cwd": "Users\\alm3ida\\StudioProjects\\Projeto_flutter_faculdade",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "Projeto_flutter_faculdade (release mode)",
+            "cwd": "Users\\alm3ida\\StudioProjects\\Projeto_flutter_faculdade",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}
