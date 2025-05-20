@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.get('/usuarios/consultar', getUsuarios);
 router.post('/usuarios/cadastrar', postUsuarios);
-router.put('/usuarios//atualizar/:id', putUsuarios);
+router.put('/usuarios/atualizar/:id', putUsuarios);
 router.delete('/usuarios/deletar/:id', deleteUsuarios);
 
 export default router;

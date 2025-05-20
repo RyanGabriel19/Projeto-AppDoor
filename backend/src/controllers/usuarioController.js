@@ -1,11 +1,16 @@
-import { db } from "../config/db.js";
+import {
+  selectUsuarios,
+  insertUsuarios,
+  updateUsuarios,
+  deletarUsuarios
+} from "../models/usuarioModel.js"
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
 export async function getUsuarios(req, res) {
   try {
-    const [rows] = await db.query('SELECT * FROM USUARIO');
-    res.status(200).json(rows);
+    const usuarios = await selectUsuarios();
+    res.status(200).json(usuarios);
   } catch (err) {
     console.error('Erro ao buscar usuários:', err);
     res.status(500).json({ error: 'Erro ao buscar usuários.' });
@@ -17,10 +22,7 @@ export async function getUsuarios(req, res) {
 export async function postUsuarios(req, res) {
   const { nome, sobrenome, usuario, email, senha } = req.body;
   try {
-    const [inserir] = await db.execute(
-      `CALL prc_usuario_insert(?, ?, ?, ?, ?)`, [nome, sobrenome, usuario, email, senha]
-    );
-    const id = inserir[0][0].id
+    const id = await insertUsuarios(nome, sobrenome, usuario, email, senha)
     return res.status(201).json({ id, message: `Usuário ${usuario} cadastrado com sucesso.` });
   } catch (err) {
     console.error('Erro na procedure insert_usuario:', err);
@@ -28,11 +30,6 @@ export async function postUsuarios(req, res) {
     // Erro customizado via SIGNAL SQLSTATE '45000'
     if (err.sqlState === '45000') {
       return res.status(400).json({ error: err.sqlMessage });
-    }
-
-    // Outros erros de banco (por exemplo, duplicata em UNIQUE)
-    if (err.code === 'ER_DUP_ENTRY') {
-      return res.status(409).json({ error: err.sqlMessage });
     }
 
     // Falha geral
@@ -47,11 +44,7 @@ export async function putUsuarios(req, res) {
   const { nome, sobrenome, usuario, email, senha } = req.body;
 
   try {
-    await db.execute(
-      `CALL prc_usuario_update(?, ?, ?, ?, ?, ?)`,
-      [id, nome, sobrenome, usuario, email, senha]
-    );
-
+    await updateUsuarios(id, nome, sobrenome, usuario, email, senha)
     return res.status(200).json({
       id: Number(id),
       message: `Usuário ID ${id} atualizado com sucesso.`,
@@ -77,11 +70,7 @@ export async function putUsuarios(req, res) {
 export async function deleteUsuarios(req, res) {
   const { id } = req.params;
   try {
-    const [result] = await db.execute(
-      'CALL prc_usuario_delete(?)',
-      [id]
-    );
-
+    await deletarUsuarios(id)
     return res.status(200).json({
       id: Number(id),
       message: `Usuário ID ${id} removido com sucesso.`
