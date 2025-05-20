@@ -1,10 +1,13 @@
-import { db } from "../config/db.js";
+import {
+    selectMovPorta,
+    insertMovPorta
+} from "../models/movPortaModel.js"
 
 //////////////////////////////////////////////////////////////////////////////////////
 
 export async function getMovPorta (req, res) {
     try {
-        const [rows] = await db.query('SELECT * FROM MOV_PORTA');
+        const rows = await selectMovPorta();
         res.status(200).json(rows);
     } catch (err) {
         console.error('Erro ao buscar as movimentações da porta:', err)
@@ -17,9 +20,7 @@ export async function getMovPorta (req, res) {
 export async function postMovPorta(req, res) {
     const { id_usuario_mov, tipo_mov, status_porta } = req.body;
     try {
-        const [inserir] = await db.execute(
-            `CALL prc_mov_porta_insert(?, ?, ?)`, [id_usuario_mov, tipo_mov, status_porta]
-        );
+        await insertMovPorta(id_usuario_mov, tipo_mov, status_porta)
         return res.status(201).json({id_usuario: id_usuario_mov, message: tipo_mov})
     } catch (err) {
         console.error('Erro na procedure de insert mov_porta:', err)

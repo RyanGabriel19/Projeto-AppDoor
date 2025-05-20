@@ -1,8 +1,8 @@
-import { db } from "../config/db.js";
+import { selectLog } from "../models/logModel.js";
 
 export async function getLog (req, res) {
     try {
-        const [rows] = await db.query('SELECT * FROM LOG');
+        const rows = await selectLog();
         res.status(200).json(rows);
     } catch (err) {
         console.error('Erro ao buscar os logs:', err)
