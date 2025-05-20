@@ -10,12 +10,12 @@ class nome extends StatelessWidget {
     return TextFormField(
       controller: controller,
       decoration: const InputDecoration(labelText: "nome"),
-      // validator: (value) {
-      //   // if (value == null || value.isEmpty) {
-      //   //   return "digite seu nome";
-      //   // }
-      //   // return null;
-      // },
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return "digite seu nome";
+        }
+        return null;
+      },
     );
   }
 }

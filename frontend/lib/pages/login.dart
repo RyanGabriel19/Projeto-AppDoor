@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:frontend/pages/HomePage.dart';
 import 'package:frontend/pages/cadastro.dart';
 import 'package:frontend/pages/widgets_cadastro/email.dart';
 import 'package:frontend/pages/widgets_cadastro/senha.dart';
+import 'package:frontend/services/ApiLogin.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -19,22 +20,19 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> fazerLogin() async {
     if (_formKey.currentState!.validate()) {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? emailSalvo = prefs.getString('email');
-      String? senhaSalva = prefs.getString('senha');
+      final sucesso = await Apilogin.loginUsuario(
+        email: emailController.text,
+        senha: senhaController.text,
+      );
 
-      if (emailController.text == emailSalvo &&
-          senhaController.text == senhaSalva) {
+      if (sucesso) {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (_) => HomePage()),
         );
       } else {
-        // ScaffoldMessenger.of(context).showSnackBar(
-        //   const SnackBar(content: Text('Email ou senha incorretos')),
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => HomePage()),
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Email ou senha incorretos')),
         );
       }
     }
@@ -102,27 +100,27 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                      TextButton(
-                        onPressed: IrCadastro,
-                        child: RichText(
-                          text: TextSpan(
-                            style: TextStyle(fontSize: 14.0, color: Colors.black),
-                            children: [
-                              TextSpan(text: 'Não tem conta? '),
-                              TextSpan(
-                                text: 'Cadastre-se',
-                                style: TextStyle(color: Colors.blue),
-                              ),
-                            ],
-                          ),
+                    TextButton(
+                      onPressed: IrCadastro,
+                      child: RichText(
+                        text: TextSpan(
+                          style: TextStyle(fontSize: 14.0, color: Colors.black),
+                          children: [
+                            TextSpan(text: 'Não tem conta? '),
+                            TextSpan(
+                              text: 'Cadastre-se',
+                              style: TextStyle(color: Colors.blue),
+                            ),
+                          ],
                         ),
                       ),
-                ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
         ),
-      ),
       ),
     );
   }

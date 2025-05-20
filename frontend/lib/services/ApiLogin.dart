@@ -1,0 +1,23 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
+class Apilogin {
+  static Future<bool> loginUsuario({
+     required String email,
+    required String senha,
+  }) async {
+    final url = Uri.parse('http://192.168.0.5:3000/api/login');
+
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'email': email, 'senha': senha}),
+    );
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+}

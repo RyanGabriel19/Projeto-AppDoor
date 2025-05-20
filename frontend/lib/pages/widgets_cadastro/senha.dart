@@ -10,15 +10,15 @@ class senha extends StatelessWidget {
       controller: controller,
       obscureText: true,
       decoration: const InputDecoration(labelText: 'senha'),
-      // validator: (value) {
-      //   if (value == null || value.isEmpty) {
-      //     return "digite sua senha";
-      //   }
-      //   if (value.length < 6) {
-      //     return 'A senha deve ter no mínimo 6 caracteres';
-      //   }
-      //   return null;
-      // },
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return "digite sua senha";
+        }
+        if (value.length < 6) {
+          return 'A senha deve ter no mínimo 6 caracteres';
+        }
+        return null;
+      },
     );
   }
 }

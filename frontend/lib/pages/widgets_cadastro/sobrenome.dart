@@ -10,12 +10,12 @@ class sobrenome extends StatelessWidget {
     return TextFormField(
       controller: controller,
       decoration: const InputDecoration(labelText: 'sobrenome'),
-      // validator: (value) {
-      //   if (value == null || value.isEmpty) {
-      //     return 'digite seu sobrenome';
-      //   }
-      //   return null;
-      // },
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'digite seu sobrenome';
+        }
+        return null;
+      },
     );
   }
 }

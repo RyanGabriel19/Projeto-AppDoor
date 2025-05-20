@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/model/models_Usuarios.dart';
 // ignore: depend_on_referenced_packages
 import 'package:frontend/pages/widgets_cadastro/nome.dart';
 
@@ -6,6 +7,8 @@ import 'package:frontend/pages/widgets_cadastro/sobrenome.dart';
 import 'package:frontend/pages/widgets_cadastro/email.dart';
 import 'package:frontend/pages/widgets_cadastro/senha.dart';
 import 'package:frontend/pages/HomePage.dart';
+import 'package:frontend/services/ApiCadastro.dart';
+
 
 class Cadastro extends StatefulWidget {
   const Cadastro({super.key});
@@ -27,25 +30,36 @@ class _CadastroState extends State<Cadastro> {
     nomeController.dispose();
     sobrenomeController.dispose();
     emailController.dispose();
-
     senhaController.dispose();
     super.dispose();
   }
 
-  void _cadastrar() {
-    if (_formKey.currentState!.validate()) {
+ void _cadastrar() async {
+  if (_formKey.currentState!.validate()) {
+    final sucesso = await ApiCadastro.cadastrarUsuario(
+      nome: nomeController.text,
+      sobrenome: sobrenomeController.text,
+      email: emailController.text,
+      senha: senhaController.text,
+    );
+
+    if (sucesso) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Cadastro realizado com sucesso!')),
       );
-
-      Future.delayed(Duration(seconds: 1), () {
+      Future.delayed(const Duration(seconds: 1), () {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => HomePage()),
         );
       });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Erro ao cadastrar usuário.')),
+      );
     }
   }
+}
 
   @override
   Widget build(BuildContext context) {

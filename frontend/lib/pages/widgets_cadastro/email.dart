@@ -11,15 +11,15 @@ class email extends StatelessWidget {
       controller: controller,
       keyboardType: TextInputType.emailAddress,
       decoration: const InputDecoration(labelText: 'email'),
-      // validator: (value) {
-      //   if (value == null || value.isEmpty) {
-      //     return 'digite seu nome';
-      //   }
-      //   if (!value.contains('@')) {
-      //     return 'digite um email valido';
-      //   }
-      //   return null;
-      // },
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'digite seu nome';
+        }
+        if (!value.contains('@')) {
+          return 'digite um email valido';
+        }
+        return null;
+      },
     );
   }
 }
