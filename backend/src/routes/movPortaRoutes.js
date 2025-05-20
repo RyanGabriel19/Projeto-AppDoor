@@ -6,7 +6,7 @@ import {
 
 const router = express.Router();
 
-router.get('/movPorta', getMovPorta);
-router.post('/movPorta', postMovPorta);
+router.get('/movPorta/consultar', getMovPorta);
+router.post('/movPorta/cadastrar', postMovPorta);
 
 export default router;
