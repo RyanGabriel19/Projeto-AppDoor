@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'package:frontend/pages/HomePage.dart';
+
 import 'package:frontend/pages/cadastro.dart';
+import 'package:frontend/pages/HomePage.dart';
 import 'package:frontend/pages/widgets_cadastro/email.dart';
 import 'package:frontend/pages/widgets_cadastro/senha.dart';
 import 'package:frontend/services/ApiLogin.dart';
+
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -20,20 +22,27 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> fazerLogin() async {
     if (_formKey.currentState!.validate()) {
-      final sucesso = await Apilogin.loginUsuario(
+      final erro = await Apilogin.loginUsuario(
         email: emailController.text,
         senha: senhaController.text,
       );
 
-      if (sucesso) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => HomePage()),
-        );
-      } else {
+      if (erro == null) {
+        // Sucesso
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Email ou senha incorretos')),
+          const SnackBar(content: Text('login realizado com sucesso!')),
         );
+        Future.delayed(const Duration(seconds: 1), () {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => HomePage()),
+          );
+        });
+      } else {
+        // Mostra mensagem de erro que veio da API
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(erro)));
       }
     }
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/pages/bluetooth.dart';
 import 'package:frontend/pages/widgets_cadastro/custom_buttom.dart';
 
 class telaControle extends StatefulWidget {
@@ -55,12 +56,19 @@ class _telaControleState extends State<telaControle> {
                     ),
                   ),
                 ),
+                
                 ElevatedButton.icon(
-                  onPressed: conectarBluetooth,
+                  onPressed:() {Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Bluetooth()),
+                    );
+                  },
+                    
                   icon: Icon(Icons.bluetooth),
                   label: Text(conectado ? "Conectado" : "Conectar"),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: conectado ? Colors.blueGrey : Colors.blue,
+                  
                   ),
                 ),
               ],

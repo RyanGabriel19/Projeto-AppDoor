@@ -28,8 +28,10 @@ class _HomePageState extends State<HomePage> {
         onTap: _onItemTapped,
         items: const [
           BottomNavigationBarItem(
+            
             icon: Icon(Icons.bluetooth),
             label: 'Controle',
+            
           ),
           BottomNavigationBarItem(icon: Icon(Icons.list), label: 'Funções'),
           BottomNavigationBarItem(

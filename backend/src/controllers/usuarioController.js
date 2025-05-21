@@ -1,5 +1,6 @@
 import {
   selectUsuarios,
+  buscarUsuarios,
   insertUsuarios,
   updateUsuarios,
   deletarUsuarios
@@ -14,6 +15,29 @@ export async function getUsuarios(req, res) {
   } catch (err) {
     console.error('Erro ao buscar usuários:', err);
     res.status(500).json({ error: 'Erro ao buscar usuários.' });
+  }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////
+
+export async function postUsuariosLogin(req, res) {
+  const { email, senha } = req.body
+  try {
+    const usuario = await buscarUsuarios(email);
+
+    if (!usuario) {
+      console.log('teste')
+      return res.status(401).json({ error: 'Usuário não encontrado.' });
+    }
+
+    if (usuario.senha !== senha) {
+      return res.status(401).json({ error: 'Senha incorreta.' });
+    }
+
+    res.status(200).json({message: 'Login realizado com sucesso.'});
+  } catch (err) {
+    console.error('Erro ao realizar o login:', err);
+    res.status(500).json({ error: 'Erro ao realizar o login.' });
   }
 }
 

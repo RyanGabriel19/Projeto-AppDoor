@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/model/models_Usuarios.dart';
+import 'package:frontend/pages/login.dart';
+
 // ignore: depend_on_referenced_packages
 import 'package:frontend/pages/widgets_cadastro/nome.dart';
+import 'package:frontend/pages/widgets_cadastro/usuario.dart';
 
 import 'package:frontend/pages/widgets_cadastro/sobrenome.dart';
 import 'package:frontend/pages/widgets_cadastro/email.dart';
 import 'package:frontend/pages/widgets_cadastro/senha.dart';
-import 'package:frontend/pages/HomePage.dart';
+// import 'package:frontend/pages/HomePage.dart';
 import 'package:frontend/services/ApiCadastro.dart';
-
 
 class Cadastro extends StatefulWidget {
   const Cadastro({super.key});
@@ -22,6 +23,7 @@ class _CadastroState extends State<Cadastro> {
 
   final nomeController = TextEditingController();
   final sobrenomeController = TextEditingController();
+  final usuarioController = TextEditingController();
   final emailController = TextEditingController();
   final senhaController = TextEditingController();
 
@@ -29,37 +31,41 @@ class _CadastroState extends State<Cadastro> {
   void dispose() {
     nomeController.dispose();
     sobrenomeController.dispose();
+    usuarioController.dispose();
     emailController.dispose();
     senhaController.dispose();
     super.dispose();
   }
 
- void _cadastrar() async {
-  if (_formKey.currentState!.validate()) {
-    final sucesso = await ApiCadastro.cadastrarUsuario(
-      nome: nomeController.text,
-      sobrenome: sobrenomeController.text,
-      email: emailController.text,
-      senha: senhaController.text,
-    );
+  void _cadastrar() async {
+    if (_formKey.currentState!.validate()) {
+      final erro = await ApiCadastro.cadastrarUsuario(
+        nome: nomeController.text,
+        sobrenome: sobrenomeController.text,
+        usuario: usuarioController.text,
+        email: emailController.text,
+        senha: senhaController.text,
+      );
 
-    if (sucesso) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Cadastro realizado com sucesso!')),
-      );
-      Future.delayed(const Duration(seconds: 1), () {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()),
+      if (erro == null) {
+        // Sucesso
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Cadastro realizado com sucesso!')),
         );
-      });
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Erro ao cadastrar usuário.')),
-      );
+        Future.delayed(const Duration(seconds: 1), () {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => LoginPage()),
+          );
+        });
+      } else {
+        // Mostra mensagem de erro que veio da API
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(erro)));
+      }
     }
   }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -88,6 +94,8 @@ class _CadastroState extends State<Cadastro> {
                     nome(controller: nomeController),
                     const SizedBox(height: 16),
                     sobrenome(controller: sobrenomeController),
+                    const SizedBox(height: 16),
+                    usuario(controller: usuarioController),
                     const SizedBox(height: 16),
                     email(controller: emailController),
                     const SizedBox(height: 16),
