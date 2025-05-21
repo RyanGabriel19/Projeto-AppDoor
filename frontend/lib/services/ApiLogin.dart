@@ -6,7 +6,7 @@ class Apilogin {
     required String email,
     required String senha,
   }) async {
-    final url = Uri.parse('http://192.168.0.5:3000/usuarios/entrar');
+    final url = Uri.parse('http://localhost:3000/usuarios/entrar');
 
     final response = await http.post(
       url,

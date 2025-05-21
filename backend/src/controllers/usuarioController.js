@@ -26,7 +26,6 @@ export async function postUsuariosLogin(req, res) {
     const usuario = await buscarUsuarios(email);
 
     if (!usuario) {
-      console.log('teste')
       return res.status(401).json({ error: 'Usuário não encontrado.' });
     }
 
