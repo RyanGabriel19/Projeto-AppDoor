@@ -5,8 +5,8 @@ export async function selectMovPorta() {
     return rows;
 }
 
-export async function insertMovPorta(id_usuario_mov, tipo_mov, status_porta) {
-    db.execute(
-        "CALL prc_mov_porta_insert(?, ?, ?)", [id_usuario_mov, tipo_mov, status_porta]
+export async function insertMovPorta(id_usuario_mov, status_porta) {
+    await db.execute(
+        "CALL prc_mov_porta_insert(?, ?)", [id_usuario_mov, status_porta]
     );
 }

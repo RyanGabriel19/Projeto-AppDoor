@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'dart:typed_data';
 
 class Bluetooth extends StatefulWidget {
@@ -13,13 +14,41 @@ class _BluetoothState extends State<Bluetooth> {
   bool _isConnecting = false;
   bool _connected = false;
 
+  List<BluetoothDevice> _devicesList = [];
+
   @override
   void initState() {
     super.initState();
+    _initBluetooth();
+  }
+
+  Future<void> _initBluetooth() async {
+    bool permissionsGranted = await _requestPermissions();
+
+    if (!permissionsGranted) {
+      print("Permissões necessárias não concedidas.");
+      // Aqui você pode mostrar um AlertDialog para o usuário.
+      return;
+    }
+
+    // Ativar Bluetooth
+    await FlutterBluetoothSerial.instance.requestEnable();
+
+    // Listar dispositivos pareados
     _listDevices();
   }
 
-  List<BluetoothDevice> _devicesList = [];
+  Future<bool> _requestPermissions() async {
+    Map<Permission, PermissionStatus> statuses =
+        await [
+          Permission.bluetooth,
+          Permission.bluetoothConnect,
+          Permission.bluetoothScan,
+          Permission.locationWhenInUse,
+        ].request();
+
+    return statuses.values.every((status) => status.isGranted);
+  }
 
   void _listDevices() async {
     List<BluetoothDevice> devices = [];
@@ -49,9 +78,15 @@ class _BluetoothState extends State<Bluetooth> {
         _selectedDevice = device;
       });
 
-      print('Conectado a ${device.name}');
+      print('Conectado a ${device.name ?? "Desconhecido"}');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Conectado a ${device.name ?? "Desconhecido"}')),
+      );
     } catch (e) {
       print('Erro ao conectar: $e');
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Erro ao conectar: $e')));
     }
 
     setState(() {
@@ -59,10 +94,17 @@ class _BluetoothState extends State<Bluetooth> {
     });
   }
 
-  void _sendCommand(String command) {
+  void _sendCommand(String command) async {
     if (_connection != null && _connection!.isConnected) {
       _connection!.output.add(Uint8List.fromList(command.codeUnits));
-      _connection!.output.allSent;
+      await _connection!.output.allSent;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Comando enviado: $command')));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Não conectado a nenhum dispositivo')),
+      );
     }
   }
 
@@ -87,7 +129,9 @@ class _BluetoothState extends State<Bluetooth> {
                 ? Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('Conectado a: ${_selectedDevice!.name}'),
+                    Text(
+                      'Conectado a: ${_selectedDevice?.name ?? "Desconhecido"}',
+                    ),
                     const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () => _sendCommand("1"), // Abrir portão
@@ -108,7 +152,7 @@ class _BluetoothState extends State<Bluetooth> {
                 )
                 : Column(
                   children: [
-                    Text('Selecione um dispositivo para conectar:'),
+                    const Text('Selecione um dispositivo para conectar:'),
                     const SizedBox(height: 10),
                     ..._devicesList.map(
                       (device) => ListTile(
@@ -119,11 +163,13 @@ class _BluetoothState extends State<Bluetooth> {
                               _isConnecting
                                   ? null
                                   : () => _connectToDevice(device),
-                          child: Text('Conectar'),
+                          child: const Text('Conectar'),
                         ),
                       ),
                     ),
-                    if (_isConnecting) CircularProgressIndicator(),
+                    if (_isConnecting) const CircularProgressIndicator(),
+                    if (_devicesList.isEmpty)
+                      const Text('Nenhum dispositivo pareado encontrado.'),
                   ],
                 ),
       ),

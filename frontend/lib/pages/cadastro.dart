@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/pages/login.dart';
-
-// ignore: depend_on_referenced_packages
 import 'package:frontend/pages/widgets_cadastro/nome.dart';
 import 'package:frontend/pages/widgets_cadastro/usuario.dart';
-
 import 'package:frontend/pages/widgets_cadastro/sobrenome.dart';
 import 'package:frontend/pages/widgets_cadastro/email.dart';
 import 'package:frontend/pages/widgets_cadastro/senha.dart';
-// import 'package:frontend/pages/HomePage.dart';
 import 'package:frontend/services/ApiCadastro.dart';
 
 class Cadastro extends StatefulWidget {
@@ -48,21 +44,17 @@ class _CadastroState extends State<Cadastro> {
       );
 
       if (erro == null) {
-        // Sucesso
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Cadastro realizado com sucesso!')),
         );
         Future.delayed(const Duration(seconds: 1), () {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => LoginPage()),
+            MaterialPageRoute(builder: (context) => const LoginPage()),
           );
         });
       } else {
-        // Mostra mensagem de erro que veio da API
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(erro)));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(erro)));
       }
     }
   }
@@ -70,56 +62,76 @@ class _CadastroState extends State<Cadastro> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
       appBar: AppBar(
         title: const Text('Cadastro de Usuário'),
         centerTitle: true,
         backgroundColor: Colors.blue[800],
         foregroundColor: Colors.white,
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
-          child: Card(
-            elevation: 6,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    nome(controller: nomeController),
-                    const SizedBox(height: 16),
-                    sobrenome(controller: sobrenomeController),
-                    const SizedBox(height: 16),
-                    usuario(controller: usuarioController),
-                    const SizedBox(height: 16),
-                    email(controller: emailController),
-                    const SizedBox(height: 16),
-                    senha(controller: senhaController),
-                    const SizedBox(height: 24),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 48,
-                      child: ElevatedButton(
-                        onPressed: _cadastrar,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue[700],
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        child: const Text(
-                          'Cadastrar',
-                          style: TextStyle(fontSize: 16),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF3E8EDE), Color(0xFF6DB6F5)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+            child: Card(
+              color: Colors.white,
+              elevation: 12,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(28.0),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      const Icon(Icons.person_add, size: 64, color: Color(0xFF3E8EDE)),
+                      const SizedBox(height: 16),
+                      const Text(
+                        'Cadastro de Usuário',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF3E8EDE),
                         ),
                       ),
-                    ),
-                  ],
+                      const SizedBox(height: 24),
+                      nome(controller: nomeController),
+                      const SizedBox(height: 16),
+                      sobrenome(controller: sobrenomeController),
+                      const SizedBox(height: 16),
+                      usuario(controller: usuarioController),
+                      const SizedBox(height: 16),
+                      email(controller: emailController),
+                      const SizedBox(height: 16),
+                      senha(controller: senhaController),
+                      const SizedBox(height: 24),
+                      SizedBox(
+                        width: double.infinity,
+                        height: 48,
+                        child: ElevatedButton(
+                          onPressed: _cadastrar,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue[700],
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: const Text(
+                            'Cadastrar',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),

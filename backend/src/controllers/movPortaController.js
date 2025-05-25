@@ -18,16 +18,19 @@ export async function getMovPorta (req, res) {
 //////////////////////////////////////////////////////////////////////////////////////
 
 export async function postMovPorta(req, res) {
-    const { id_usuario_mov, tipo_mov, status_porta } = req.body;
+    const { id_usuario_mov, status_porta } = req.body;
     try {
-        await insertMovPorta(id_usuario_mov, tipo_mov, status_porta)
-        return res.status(201).json({id_usuario: id_usuario_mov, message: tipo_mov})
+        await insertMovPorta(id_usuario_mov, status_porta)
+        return res.status(201).json({id_usuario: id_usuario_mov, status_porta: status_porta})
     } catch (err) {
-        console.error('Erro na procedure de insert mov_porta:', err)
+    console.error('Erro na procedure mov_porta_insert:', err);
 
-        // Erro customizado via SIGNAL SQLSTATE '45000'
-        if (err.sqlState === '45000') {
-        return res.status(400).json({ error: err.sqlMessage });
-        }
+    // Erro customizado via SIGNAL SQLSTATE '45000'
+    if (err.sqlState === '45000') {
+      return res.status(400).json({ error: err.sqlMessage });
     }
+
+    // Falha geral
+    return res.status(500).json({ error: 'Erro interno no banco de dados' });
+  }
 }

@@ -12,6 +12,11 @@ export async function buscarUsuarios(email) {
     return rows[0];
 }
 
+// export async function loginAdmin(email) {
+//     const [senha_admin] = await db.query("SELECT senha FROM USUARIO WHERE EMAIL = 'admin@gmail.com'")
+//     return senha_admin[0]
+// }
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 export async function insertUsuarios(nome, sobrenome, usuario, email, senha) {

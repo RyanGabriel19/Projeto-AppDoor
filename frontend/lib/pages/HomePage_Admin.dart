@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-
+import 'telaCrud.dart';
 import 'telaControle.dart';
 import 'telaConfig.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage_admin extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _HomePage_AdminState createState() => _HomePage_AdminState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePage_AdminState extends State<HomePage_admin> {
   int _selectedIndex = 0;
 
-  final List<Widget> _screens = [telaControle(), telaConfig()];
+  final List<Widget> _screens = [telaControle(), telaCrud(), telaConfig()];
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(Icons.bluetooth),
             label: 'Controle',
           ),
-
+          BottomNavigationBarItem(icon: Icon(Icons.list), label: 'Funções'),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
             label: 'Configurações',
