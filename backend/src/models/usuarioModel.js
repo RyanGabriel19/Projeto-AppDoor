@@ -16,7 +16,11 @@ export async function buscarUsuarios(email) {
 //     const [senha_admin] = await db.query("SELECT senha FROM USUARIO WHERE EMAIL = 'admin@gmail.com'")
 //     return senha_admin[0]
 // }
-
+////////////////////////////////////////////////////////////////////////////////////////////////
+export async function buscarUsuariosPorId(id){
+    const[usuario] = await db.query('SELECT * FROM USUARIO WHERE ID = ?', [id]);
+    return usuario[0];
+}
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 export async function insertUsuarios(nome, sobrenome, usuario, email, senha) {

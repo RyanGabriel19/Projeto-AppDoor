@@ -1,10 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:frontend/pages/cadastro.dart';
 import 'package:frontend/pages/HomePage.dart';
-import 'package:frontend/pages/HomePage_Admin.dart';
+import 'package:frontend/pages/HomePageAdmin.dart';
 import 'package:frontend/pages/widgets_cadastro/email.dart';
 import 'package:frontend/pages/widgets_cadastro/senha.dart';
 import 'package:frontend/services/ApiLogin.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -20,35 +23,40 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> fazerLogin() async {
     if (_formKey.currentState!.validate()) {
-      final erro = await Apilogin.loginUsuario(
+      final resultado = await Apilogin.loginUsuario(
         email: emailController.text,
         senha: senhaController.text,
       );
 
-      if (erro == null && emailController.text == 'admin@gmail.com') {
+      if (resultado != null && !resultado.startsWith('Erro')) {
+        // resultado aqui é o token
+        final token = resultado;
+
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('jwtToken', token);
+
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Login realizado com sucesso!')),
         );
+
         Future.delayed(const Duration(seconds: 1), () {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => HomePage_admin()),
-          );
-        });
-      } else if (erro == null && emailController.text != 'admin@gmail.com') {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Login realizado com sucesso!')),
-        );
-        Future.delayed(const Duration(seconds: 1), () {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => HomePage()),
-          );
+          if (emailController.text == 'admin@gmail.com') {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => HomePageAdmin()),
+            );
+          } else {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => HomePage()),
+            );
+          }
         });
       } else {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(erro ?? 'erro desconhecido')));
+        // resultado é erro ou null
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(resultado ?? 'Erro desconhecido')),
+        );
       }
     }
   }

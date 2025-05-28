@@ -3,12 +3,12 @@ import 'telaCrud.dart';
 import 'telaControle.dart';
 import 'telaConfig.dart';
 
-class HomePage_admin extends StatefulWidget {
+class HomePageAdmin extends StatefulWidget {
   @override
-  _HomePage_AdminState createState() => _HomePage_AdminState();
+  _HomePageAdminState createState() => _HomePageAdminState();
 }
 
-class _HomePage_AdminState extends State<HomePage_admin> {
+class _HomePageAdminState extends State<HomePageAdmin> {
   int _selectedIndex = 0;
 
   final List<Widget> _screens = [telaControle(), telaCrud(), telaConfig()];

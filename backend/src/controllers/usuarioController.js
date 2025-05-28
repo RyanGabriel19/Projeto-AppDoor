@@ -1,11 +1,41 @@
+import jwt from 'jsonwebtoken';
+
+
+
 import {
   selectUsuarios,
   buscarUsuarios,
   insertUsuarios,
   updateUsuarios,
-  deletarUsuarios
+  deletarUsuarios,
+  buscarUsuariosPorId 
 } from "../models/usuarioModel.js"
 
+//////////////////////////////////////////////////////////////////////////////////////////
+//Função para retornar o perfil do usuário logado
+export async function getPerfilUsuario(req, res) {
+  try {
+    const usuarioId = req.usuario.id;
+
+    const usuario = await buscarUsuariosPorId(usuarioId);
+
+    if (!usuario) return res.status(404).json({ error: 'Usuário não encontrado.' });
+
+    res.status(200).json({
+      id: usuario.id,
+      usuario: usuario.usuario,
+      nome: usuario.nome,
+      email: usuario.email,
+      // outros campos que quiser
+    });
+  } catch (err) {
+    console.error('Erro ao buscar perfil:', err);
+    res.status(500).json({ error: 'Erro interno.' });
+
+  }
+ 
+
+}
 ///////////////////////////////////////////////////////////////////////////////////////
 
 export async function getUsuarios(req, res) {
@@ -19,7 +49,9 @@ export async function getUsuarios(req, res) {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
+//gera o token para acessar as informacoes do usuario logado
 
+const SECRET_KEY = 'ryan123'
 export async function postUsuariosLogin(req, res) {
   const { email, senha } = req.body
   try {
@@ -32,8 +64,11 @@ export async function postUsuariosLogin(req, res) {
     if (usuario.senha !== senha) {
       return res.status(401).json({ error: 'Senha incorreta.' });
     }
-
-    res.status(200).json({message: 'Login realizado com sucesso.'});
+    const token = jwt.sign(
+      {id: usuario.id, nome: usuario.nome, usuario: usuario.usuario, email: usuario.email}, SECRET_KEY,
+      {expiresIn: '1h'}
+    );
+    res.status(200).json({message: 'Login realizado com sucesso.', token});
   } catch (err) {
     console.error('Erro ao realizar o login:', err);
     res.status(500).json({ error: 'Erro ao realizar o login.' });

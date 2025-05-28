@@ -54,7 +54,9 @@ class _CadastroState extends State<Cadastro> {
           );
         });
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(erro)));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(erro)));
       }
     }
   }
@@ -78,7 +80,10 @@ class _CadastroState extends State<Cadastro> {
         ),
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 24.0,
+              vertical: 16.0,
+            ),
             child: Card(
               color: Colors.white,
               elevation: 12,
@@ -91,7 +96,11 @@ class _CadastroState extends State<Cadastro> {
                   key: _formKey,
                   child: Column(
                     children: [
-                      const Icon(Icons.person_add, size: 64, color: Color(0xFF3E8EDE)),
+                      const Icon(
+                        Icons.person_add,
+                        size: 64,
+                        color: Color(0xFF3E8EDE),
+                      ),
                       const SizedBox(height: 16),
                       const Text(
                         'Cadastro de Usuário',
@@ -129,7 +138,7 @@ class _CadastroState extends State<Cadastro> {
                             style: TextStyle(fontSize: 16),
                           ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),

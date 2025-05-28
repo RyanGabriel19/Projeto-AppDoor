@@ -56,21 +56,25 @@ class _telaControleState extends State<telaControle> {
                     ),
                   ),
                 ),
-                
-                ElevatedButton.icon(
-                  onPressed:() {Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Bluetooth()),
-                    );
-                  },
-                    
-                  icon: Icon(Icons.bluetooth),
-                  label: Text(conectado ? "Conectado" : "Conectar"),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: conectado ? Colors.blueGrey : Colors.blue,
-                  
-                  ),
-                ),
+               ElevatedButton.icon(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Bluetooth()),
+          ).then((result) {
+            // Opcional: você pode usar o result vindo da tela Bluetooth para decidir se está conectado
+            setState(() {
+              conectado = true; // aqui você pode adaptar para o resultado real
+            });
+          });
+             },
+            icon: Icon(Icons.bluetooth),
+            label: Text(conectado ? "Conectado" : "Conectar"),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: conectado ? Colors.blueGrey : Colors.red,
+            ),
+          ),
+
               ],
             ),
             Expanded(
