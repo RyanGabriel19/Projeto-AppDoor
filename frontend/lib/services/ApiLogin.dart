@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Apilogin {
-  static const String baseUrl = 'http://192.168.154.110:3000';
+  static const String baseUrl = 'http://192.168.0.5:3000';
   static Future<String?> loginUsuario({
     required String email,
     required String senha,
@@ -37,7 +37,7 @@ class Apilogin {
     final response = await http.get(
       url,
       headers: {
-        'Content-Type': 'applicaton/json',
+        'Content-Type': 'application/json',
         'Authorization': 'Bearer $token',
       },
     );

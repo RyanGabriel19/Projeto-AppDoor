@@ -16,12 +16,12 @@ import {
 export async function getPerfilUsuario(req, res) {
   try {
     const usuarioId = req.usuario.id;
-
     const usuario = await buscarUsuariosPorId(usuarioId);
 
     if (!usuario) return res.status(404).json({ error: 'Usuário não encontrado.' });
 
     res.status(200).json({
+      
       id: usuario.id,
       usuario: usuario.usuario,
       nome: usuario.nome,
@@ -76,7 +76,7 @@ export async function postUsuariosLogin(req, res) {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
-
+//funcao para cadastro de usuario
 export async function postUsuarios(req, res) {
   const { nome, sobrenome, usuario, email, senha } = req.body;
   try {

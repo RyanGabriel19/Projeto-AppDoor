@@ -1,19 +1,21 @@
-
 #include <Servo.h>
-#include <SoftwareSerial.h>
 
-Servo servo;
-SoftwareSerial BT(10, 11); // RX, TX
+Servo meuServo;
 
 void setup() {
-  servo.attach(9);
-  BT.begin(9600);
+  Serial.begin(9600);  // Usa a serial hardware
+  meuServo.attach(9);  // Servo no pino 9
 }
 
 void loop() {
-  if (BT.available()) {
-    char c = BT.read();
-    if (c == 'A')      servo.write(90);
-    else if (c == 'F') servo.write(0);
+  if (Serial.available()) {
+    char comando = Serial.read();
+
+    if (comando == 'A') {
+      meuServo.write(0);
+    } 
+    else if (comando == 'F') {
+      meuServo.write(90);
+    }
   }
 }
