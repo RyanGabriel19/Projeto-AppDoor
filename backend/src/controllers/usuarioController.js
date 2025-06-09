@@ -15,26 +15,29 @@ import {
 //Função para retornar o perfil do usuário logado
 export async function getPerfilUsuario(req, res) {
   try {
+    console.log('req.usuario recebido no perfil:', req.usuario);
     const usuarioId = req.usuario.id;
     const usuario = await buscarUsuariosPorId(usuarioId);
 
-    if (!usuario) return res.status(404).json({ error: 'Usuário não encontrado.' });
+    if (!usuario) {
+      return res.status(404).json({ error: 'Usuário não encontrado.' });
+    }
 
-    res.status(200).json({
-      
-      id: usuario.id,
-      usuario: usuario.usuario,
-      nome: usuario.nome,
-      email: usuario.email,
-      // outros campos que quiser
-    });
+    const resposta = {
+      id: usuario.ID,
+      usuario: usuario.USUARIO,
+      nome: usuario.NOME,
+      email: usuario.EMAIL
+    };
+
+    console.log('Enviando perfil para o Flutter:', resposta);
+
+    // O RETURN GARANTE o envio da resposta
+    return res.status(200).json(resposta);
   } catch (err) {
     console.error('Erro ao buscar perfil:', err);
-    res.status(500).json({ error: 'Erro interno.' });
-
+    return res.status(500).json({ error: 'Erro interno.' });
   }
- 
-
 }
 ///////////////////////////////////////////////////////////////////////////////////////
 

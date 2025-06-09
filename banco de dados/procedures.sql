@@ -145,6 +145,11 @@ BEGIN
 		SET msg_erro = CONCAT('Usuário id ', p_id, ' não existe.');
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = msg_erro;
     END IF;
+    
+    IF p_id = 38 THEN
+		SET msg_erro = CONCAT('Usuário id ', p_id, ' não pode ser excluido. Motivo: USUÁRIO ADMIN');
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = msg_erro;
+    END IF;
 
 	DELETE FROM USUARIO
     WHERE ID = p_id;
@@ -152,6 +157,7 @@ END$$
 
 DELIMITER ;
 -- Para rodar: call delete_usuario(1);
+DROP procedure prc_usuario_delete;
 
 ----------------------- CRIANDO AS PROCEDURES DA TABELA MOV_PORTA -----------------------
 

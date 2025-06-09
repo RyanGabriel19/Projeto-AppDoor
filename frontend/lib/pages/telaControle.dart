@@ -13,7 +13,6 @@ class telaControle extends StatefulWidget {
   _telaControleState createState() => _telaControleState();
 }
 
-
 class _telaControleState extends State<telaControle> {
   bool conectado = false;
   bool portaAberta = false;
@@ -70,8 +69,11 @@ class _telaControleState extends State<telaControle> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Controle do Portão'),
-        backgroundColor: Colors.blue[800],
+        title: Text(
+          'Controle do Portão',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.blue,
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),

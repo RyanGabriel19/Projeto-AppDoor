@@ -23,6 +23,8 @@ export async function buscarUsuarios(email) {
 export async function buscarUsuariosPorId(id){
     const[rows] = await db.query('SELECT * FROM USUARIO WHERE ID = ?', [id]);
     return rows[0];
+     
+
 }
 /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -41,6 +43,7 @@ export async function insertUsuarios(nome, sobrenome, usuario, email, senha) {
 export async function updateUsuarios(id, nome, sobrenome, usuario, email, senha) {
     await db.execute(
         "CALL prc_usuario_update(?, ?, ?, ?, ?, ?)", [id, nome, sobrenome, usuario, email, senha]
+        
     );
 }
 
@@ -48,7 +51,6 @@ export async function updateUsuarios(id, nome, sobrenome, usuario, email, senha)
 
 //funcao para deletar usuario 
 export async function deletarUsuarios(id) {
-    await db.execute(
-        "CALL prc_usuario_delete(?)", [id]
-    );
+    const [result] = await db.execute( "CALL prc_usuario_delete(?)", [id]);
+    return [result];
 }

@@ -50,7 +50,7 @@ class _BluetoothConnectionPageState extends State<BluetoothConnectionPage> {
     try {
       final perfil = await Apilogin.getPerfilUsuario();
       setState(() {
-        emailUsuario = perfil?['email'] ?? 'email não encontrado';
+        emailUsuario = perfil?.email ?? 'email não encontrado';
       });
     } catch (e) {
       setState(() {

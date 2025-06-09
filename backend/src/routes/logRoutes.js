@@ -1,8 +1,10 @@
 import express from 'express';
-import { getLog } from '../controllers/logController.js';
+import { getLog, getLogID } from '../controllers/logController.js';
 
 const router = express.Router();
 
-router.get('/log/consultar', getLog);
+router.get('/logs/consultar', getLog);
+router.get('/logs/consultar/:id', getLogID);
+
 
 export default router;

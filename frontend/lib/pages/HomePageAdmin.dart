@@ -31,7 +31,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
             icon: Icon(Icons.bluetooth),
             label: 'Controle',
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.list), label: 'Funções'),
+          BottomNavigationBarItem(icon: Icon(Icons.list), label: 'Logs'),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
             label: 'Configurações',

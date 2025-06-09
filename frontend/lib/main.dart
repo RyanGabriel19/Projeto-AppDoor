@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/pages/alteraSenha.dart';
 import 'pages/login.dart';
 
 void main() {
@@ -14,10 +15,14 @@ class MyApp extends StatelessWidget {
       title: 'App Door',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-
         useMaterial3: true,
       ),
-      home: LoginPage(),
+      initialRoute: '/login', //  rota inicial
+      routes: {
+        '/login': (context) => LoginPage(),
+         '/mudarsenha': (context) => AlterarSenhaPage(),// Rota nomeada para LoginPage
+        
+      },
     );
   }
 }
