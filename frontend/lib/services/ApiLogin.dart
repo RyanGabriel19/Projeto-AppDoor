@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Apilogin {
-  static const String baseUrl = 'http://192.168.0.5:3000';
+  static const String baseUrl = 'http://172.20.10.2:3000';
 
   /// Login do usuário. Retorna o token se sucesso ou mensagem de erro iniciada com "Erro:"
   static Future<String?> loginUsuario({

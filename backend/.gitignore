@@ -1,3 +1,4 @@
 node_modules/
 arquivos do projeto/
 .env
+.vscode/

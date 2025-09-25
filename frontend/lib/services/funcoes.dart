@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Funcoes {
   ///////////////delet usuario
 
-  static const String baseUrl = 'http://192.168.0.5:3000';
+  static const String baseUrl = 'http://172.20.10.2:3000';
 
   static Future<String> deletUsuario(String idUsuario) async {
     final prefs = await SharedPreferences.getInstance();
@@ -42,17 +42,18 @@ class Funcoes {
     final url = Uri.parse('$baseUrl/usuarios/atualizar/$id');
 
     final Map<String, dynamic> body = {
-    'nome': null, 
-    'sobrenome': null,
-    'usuario': null,
-    'email': null,
-    'senha': novaSenha};
-    
-  //   "nome": null,
-  // "sobrenome": null,
-  // "usuario": "igor",
-  // "email": "igor99@gmail.com",
-  // "senha": "12345"
+      'nome': null,
+      'sobrenome': null,
+      'usuario': null,
+      'email': null,
+      'senha': novaSenha,
+    };
+
+    //   "nome": null,
+    // "sobrenome": null,
+    // "usuario": "igor",
+    // "email": "igor99@gmail.com",
+    // "senha": "12345"
 
     final response = await http.put(
       url,

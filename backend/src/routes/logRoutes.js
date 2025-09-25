@@ -6,5 +6,4 @@ const router = express.Router();
 router.get('/logs/consultar', getLog);
 router.get('/logs/consultar/:id', getLogID);
 
-
 export default router;

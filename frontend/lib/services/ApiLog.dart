@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class LogService {
-  final String baseUrl = 'http://192.168.0.5:3000/logs/consultar';
+  final String baseUrl = 'http://172.20.10.2:3000/logs/consultar';
 
   Future<List<dynamic>> fetchLogs() async {
     final response = await http.get(Uri.parse(baseUrl));
@@ -14,7 +14,7 @@ class LogService {
   }
 
   Future<List<dynamic>> fetchLogsPorID(String id) async {
-   final response = await http.get(Uri.parse('$baseUrl/$id'));
+    final response = await http.get(Uri.parse('$baseUrl/$id'));
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
