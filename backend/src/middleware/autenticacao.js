@@ -1,9 +1,5 @@
 import jwt from 'jsonwebtoken';
 
-
-
-
-
 const SECRET_KEY = 'ryan123';
 
 export function autenticarToken(req, res, next) {

@@ -1,7 +1,5 @@
 import jwt from 'jsonwebtoken';
 
-
-
 import {
   selectUsuarios,
   buscarUsuarios,
